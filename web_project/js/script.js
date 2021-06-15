@@ -1,5 +1,4 @@
 (() => {
-	//let은 변수 재선언X, 재할당O, const는 변수 재선언X, 재할당X
 	const canvas= document.getElementById("canvas");
 	const ctx= canvas.getContext('2d');
 	let turn= 1;
@@ -329,7 +328,7 @@
 					}
 				}
 			}
-			if(over && B) break;
+			if(over && B) break; //벽과 블록 둘 다 닿았을때 공(예상경로)의 위치 갱신
 		}
 		Move_cnt++;
 	}
@@ -370,9 +369,9 @@
 			ctx.lineDashOffset= 0; 	// 예상 경로 초기화
 			Shootcnt= Balls.length; // ball 개수만큼 Shootcnt 설정
 			Ball_update(); // 공 업데이트
-			let degree= GetDegree(fb.x + fb.dx, fb.x, fb.y - fb.dy, fb.y);
+			let degree= GetDegree(fb.x + fb.dx, fb.x, fb.y - fb.dy, fb.y);   //공의 발사각도 계산
 			degree= degree<0? -270-(degree): 90-(degree);
-			let point= GetPointFromDegree(fb.x, fb.y, degree, 10);	
+			let point= GetPointFromDegree(fb.x, fb.y, degree, 10);   	
 			let tick= Math.floor(Math.abs(point.x - fb.x))+Math.floor(Math.abs(fb.y-point.y));
 			for(var i=0; i<Balls.length; i++){
 				let s= await balls_shoot(i, tick);	//공이 다 날아갈때까지 일시정지
@@ -397,21 +396,21 @@
 		}
 		degree= degree<0? -270-(degree): 90-(degree);		//y축의 기준이 아래방향이므로 위의 방향으로 전환
 		let point= GetPointFromDegree(fb.x, fb.y, degree, 3);
-		GetPath( (point.x - fb.x), (point.y - fb.y));
+		GetPath( (point.x - fb.x), (point.y - fb.y));     //경로계산
 	}
 	const Ball_update= () =>{
-		if(Blocks.length == 0 && AddBalls.length == 0 && Balls[fbid]){
+		if(Blocks.length == 0 && AddBalls.length == 0 && Balls[fbid]){ 
             console.log(Balls[fbid])
             clear_audio.play();
 			return smoothCallback(0);
 		}
 
 		for(var i=0, len= Balls.length; i<len; i++){
-			if(!Balls[i].isShoot)
+			if(!Balls[i].isShoot)    //공이 날아다니지 않을때
                 continue;
 			if(Balls[i].update()){
 				Balls[i].isShoot= false;
-				if(Balls.length == Shootcnt){
+				if(Balls.length == Shootcnt){   //날아다니는 공과 총 공의 갯수가 같을때 바닥의 공이 될 id값을 계속 업데이트
 					fbid= i;
 				}
 				Shootcnt--;
@@ -430,7 +429,7 @@
 		if(n>=120){           //약 1초(120프레임(Hz)*120=1s)
 			Shootcnt= 0;
 			mousestate= 0;
-			for(var i=0, len= Balls.length; i<len; i++){
+			for(var i=0, len= Balls.length; i<len; i++){     //남은 공의 좌표 바닥에 처음으로 도달한 공의 좌표로 변환
 				Balls[i].x= Balls[fbid].x;
 				Balls[i].y= Balls[fbid].y;
 				Balls[i].opacity= 1;
@@ -441,7 +440,7 @@
 		for(var i=0, len= Balls.length; i<len; i++){
 			if(!Balls[i].isShoot)
 				continue;
-			if(Balls[i].update()){
+			if(Balls[i].update()){       //공이 바닥에 도달시
 				Balls[i].isShoot= false;
 				Balls[i].opacity= 1;
 				Shootcnt--;
@@ -553,10 +552,10 @@
 		}
 		Ball_Add= 0;  //추가하는 공 초기화
         console.log(Ball_Add)
-		if(Blocks.find(e => e.t == 8)){
+		if(Blocks.find(e => e.t == 8)){   //블록이 바닥에 닿을시 게임 종료
             end_audio.play();
             end();
-            return add_button();  //블록이 바닥에 닿을시 게임 종료
+            return add_button();
         }
         await Ball_Gather();        //공모으기
 
@@ -640,13 +639,12 @@
         obj.appendChild(img);
         document.getElementById("app").appendChild(obj);    //id=app 내 버튼태그 생성
 
-        document.querySelector('button').addEventListener('click', function(e){
-            httpRequest = new XMLHttpRequest();
+        document.querySelector('button').addEventListener('click', function(e){     //버튼 클릭 이벤트 생성
+            httpRequest = new XMLHttpRequest();     //ajax의 XMLHttpRequest객체 사용
             httpRequest.open('GET', '../php/swipe_update.php?score='+(turn-1), true);
             httpRequest.onreadystatechange = function() {
-                location.href="swipe.php";
+                location.href="swipe.php";      //GET요청 성공시 swipe.php 링크
             }
-            //httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             httpRequest.send();
         });
     }

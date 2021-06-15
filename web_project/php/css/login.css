@@ -1,0 +1,6 @@
+.topline{border-top:2px solid black; margin: 50px; } /*위쪽에 줄을 긋는다*/
+.botline{border-bottom:2px solid black;}/*아래쪽에 줄을 긋는다*/
+.buttonline{border-top:2px solid black; border-bottom:2px solid black; }/*위, 아래쪽에 줄을 긋는다*/
+ a:visited {text-decoration: none; color: #333333; }
+ #login_box { height: 400px; width: 429px; margin: 0 auto; }
+ #login_title { margin: 50px 0 0 0; padding-bottom: 5px; }

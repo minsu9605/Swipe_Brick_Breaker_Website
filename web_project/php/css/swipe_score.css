@@ -1,0 +1,4 @@
+#mypoint { position: absolute; top: 40%; left: 68%; font-family: "돋움";   font-size: 17px; font-weight: bold;}
+#mypoint ul { margin-top: 20px; }
+#mypoint li { margin-top: 8px; margin-left: 15px; }
+#mypoint span { display: inline-block; }
